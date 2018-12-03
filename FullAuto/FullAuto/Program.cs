@@ -21,7 +21,7 @@ namespace FullAuto
         static string fullAutoVersion = "0.0.1-beta";
         static string tempDir = "FullAutoTemp";
         static string installDir;
-        static string defaultSettingsJSON = "{\"packages\":[\"song-loader\",\"scoresaber\",\"camera-plus\", \"beatsaverdownloader\",\"songbrowserplugin\"],\"versions\":[],\"platform\":\"steam\",\"installFolder\":\"C:\\Program Files (x86)\\Steam\\steamapps\\common\\Beat Saber\",\"askBeforeUpdate\":false}";
+        static string defaultSettingsJSON = "{\"packages\":[\"song-loader\",\"scoresaber\",\"camera-plus\", \"beatsaverdownloader\",\"songbrowserplugin\"],\"versions\":[],\"platform\":\"steam\",\"installFolder\":\"C:\\\\Program Files (x86)\\\\Steam\\\\steamapps\\\\common\\\\Beat Saber\",\"askBeforeUpdate\":false}";
         static string updateFileURL = "https://raw.githubusercontent.com/Adybo123/BeatSaberFullAuto/master/update.txt";
         // Change this when the next version is ready and pushed to master
         static int updateVersion = 1;
