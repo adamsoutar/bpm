@@ -19,5 +19,5 @@ Want to add a mod to be maintained by FullAuto? No problem. Head to [ModSaber.or
 to
 
 ```json
-"packages": ["song-loader","scoresaber", "camera-plus"],
+"packages": ["song-loader","scoresaber","camera-plus"],
 ```
