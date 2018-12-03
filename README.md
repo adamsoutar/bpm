@@ -1,5 +1,7 @@
 ![FullAuto](http://overflo.me/random/FullAutoLogo.png)
 
+![Build status](https://travis-ci.com/Adybo123/BeatSaberFullAuto.svg?branch=master)
+
 FullAuto is an app that runs when you start BeatSaber, and keeps all of your mods up to date without you having to think about it. It works entirely independently, as a replacement for [BeatSaberModLoader](https://github.com/Umbranoxio/BeatSaberModInstaller).
 
 ## Installation
