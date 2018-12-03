@@ -1,5 +1,7 @@
 ![FullAuto](http://overflo.me/random/FullAutoLogo.png)
 
+![Build status](https://travis-ci.com/Adybo123/BeatSaberFullAuto.svg?branch=master)
+
 FullAuto is an app that runs when you start BeatSaber, and keeps all of your mods up to date without you having to think about it. It works entirely independently, as a replacement for [BeatSaberModLoader](https://github.com/Umbranoxio/BeatSaberModInstaller).
 
 ## Installation
@@ -21,3 +23,9 @@ to
 ```json
 "packages": ["song-loader","scoresaber","camera-plus"],
 ```
+
+## Platform support
+
+If you're not using the Steam version of the game, you can use the ```platform``` field in fullAuto.json to pick a custom ModSaber platform, E.G ```steam``` or ```oculus```. You shouldn't need to change this, since the installer does its best guess which one you're using.
+
+**Note:** I can't garunee support for the Oculus Store version of the game, since I don't own it - If anyone wants to help test this, pull up any [issues](https://github.com/Adybo123/BeatSaberFullAuto/issues) you find!
