@@ -21,16 +21,33 @@ namespace FullAuto
         static string fullAutoVersion = "0.0.1-beta";
         static string tempDir = "FullAutoTemp";
         static string installDir;
+        static string defaultSettingsJSON = "{\"packages\":[\"song-loader\",\"scoresaber\",\"camera-plus\", \"beatsaverdownloader\",\"songbrowserplugin\"],\"versions\":[],\"platform\":\"steam\",\"installFolder\":\"C:\\Program Files (x86)\\Steam\\steamapps\\common\\Beat Saber\",\"askBeforeUpdate\":false}";
+        static string updateFileURL = "https://raw.githubusercontent.com/Adybo123/BeatSaberFullAuto/master/update.txt";
+        // Change this when the next version is ready and pushed to master
+        static int updateVersion = 1;
+        static bool updating = false;
 
         static void Main(string[] args)
         {
             // TODO: More error handling
-            // TODO: On first launch, construct fullAuto.json with them
 
             Console.WriteLine($"Beat Saber FullAuto mod loader v{fullAutoVersion} by deeBo{Environment.NewLine}----");
+            if (args.Length > 0)
+            {
+                if (args[0] == "--update") updating = true;
+            }
             fullAutoMain();
-            var beatSaberProcess = System.Diagnostics.Process.Start(Path.Combine(installDir, "Game.exe"));
-            beatSaberProcess.WaitForExit();
+            try
+            {
+                var beatSaberProcess = System.Diagnostics.Process.Start(Path.Combine(installDir, "Game.exe"));
+                beatSaberProcess.WaitForExit();
+            } catch (Exception ex)
+            {
+                Console.WriteLine("Couldn't find the Beat Saber executable! Does this file exist:");
+                Console.WriteLine(Path.Combine(installDir, "Game.exe"));
+                Console.Write("Press Any Key to Exit");
+                Console.ReadKey();
+            }
         }
 
         static string textFileContents(string filePath)
@@ -154,34 +171,100 @@ namespace FullAuto
             }
         }
 
+        static void appendToErrorLog(string errorStr)
+        {
+            Console.WriteLine("The log was written to at fullAutoLog.txt");
+            File.AppendAllText("fullAutoLog.txt", $"{errorStr}{Environment.NewLine}");
+        }
+
+        static void tryAutoUpdate(string installDir)
+        {
+            string updateString;
+            try
+            {
+                using (WebClient client = new WebClient())
+                {
+                    updateString = client.DownloadString(updateFileURL);
+                    string[] updatesArray = updateString.Split('|');
+                    // Always make sure updatesArray[0] is int parse-able
+                    int newVersion = Int32.Parse(updatesArray[0]);
+                    if (newVersion > updateVersion)
+                    {
+                        Console.WriteLine("A new version of fullAuto is available.");
+                        string updateExe = Path.Combine(installDir, "fullAutoUpdate.exe");
+                        if (File.Exists(updateExe)) File.Delete(updateExe);
+                        client.DownloadFile(updatesArray[1], updateExe);
+                        System.Diagnostics.Process.Start(updateExe, "--update");
+                        // Quit, the updated version will take over
+                        Environment.Exit(0);
+                    }
+                }
+            } catch (Exception ex)
+            {
+                Console.WriteLine("Update check failed!");
+                appendToErrorLog(ex.ToString());
+            }
+        }
+
+        static void moveIfUpdating(string installDir)
+        {
+            if (updating)
+            {
+                Console.WriteLine("We're updating, so we'll copy ourselves into the correct place while deleting the old version.");
+                File.Delete(Path.Combine(installDir, "Beat Saber.exe"));
+                File.Copy(Path.Combine(installDir, "fullAutoUpdate.exe"), Path.Combine(installDir, "Beat Saber.exe"));
+            }
+        }
+
         static void fullAutoMain()
         {
             // Setup and checks
-            dynamic settings = JsonConvert.DeserializeObject(textFileContents(settingsPath));
-            installDir = settings.installFolder;
-
-            Console.WriteLine($"Install path: {installDir}");
-            Console.WriteLine($"Checking for plugin updates...");
-            
-            var updates = checkModUpdates(settings);
-            // If we installed updates
-            if (updates.Item1)
+            try
             {
-                Console.WriteLine("Mods updated, performing IPA repatch...");
-                var IPA = new System.Diagnostics.Process();
-                IPA.StartInfo.FileName = Path.Combine(installDir, "IPA.exe");
-                IPA.StartInfo.Arguments = "Game.exe";
-                IPA.Start();
-                IPA.WaitForExit();
-                Console.WriteLine("IPA repatch performed.");
+                if (!File.Exists(settingsPath))
+                {
+                    Console.WriteLine("Settings file was not found, reconstructing...");
+                    StreamWriter settingsWriter = new StreamWriter(settingsPath);
+                    // Create default settings file
+                    settingsWriter.Write(defaultSettingsJSON);
+                    settingsWriter.Close();
+                    Console.WriteLine("Reconstructing default settings file...");
+                    appendToErrorLog("fullAuto.json wasn't found, and it was reconstructed. This will cause a fail on future launches if you're not using the Steam version.");
+                    appendToErrorLog("Change installDir on next start.");
+                }
+                dynamic settings = JsonConvert.DeserializeObject(textFileContents(settingsPath));
+                installDir = settings.installFolder;
+                // NEW: Auto-update
+                moveIfUpdating(installDir);
+                tryAutoUpdate(installDir);
 
-                // Re-save to JSON file, since we updated a mod
-                Console.WriteLine("Re-saving fullAuto.json...");
-                string settingsString = JsonConvert.SerializeObject(updates.Item2);
-                StreamWriter sw = new StreamWriter(settingsPath);
-                sw.Write(settingsString);
-                sw.Close();
-                Console.WriteLine("Saved :)");
+                Console.WriteLine($"Install path: {installDir}");
+                Console.WriteLine($"Checking for plugin updates...");
+
+                var updates = checkModUpdates(settings);
+                // If we installed updates
+                if (updates.Item1)
+                {
+                    Console.WriteLine("Mods updated, performing IPA repatch...");
+                    var IPA = new System.Diagnostics.Process();
+                    IPA.StartInfo.FileName = Path.Combine(installDir, "IPA.exe");
+                    IPA.StartInfo.Arguments = "Game.exe";
+                    IPA.Start();
+                    IPA.WaitForExit();
+                    Console.WriteLine("IPA repatch performed.");
+
+                    // Re-save to JSON file, since we updated a mod
+                    Console.WriteLine("Re-saving fullAuto.json...");
+                    string settingsString = JsonConvert.SerializeObject(updates.Item2);
+                    StreamWriter sw = new StreamWriter(settingsPath);
+                    sw.Write(settingsString);
+                    sw.Close();
+                    Console.WriteLine("Saved :)");
+                }
+            } catch (Exception ex) {
+                Console.WriteLine("There was an issue updating your mods. FullAuto is starting Beat Saber anyway, but there's a log in your Beat Saber folder if you want it.");
+                // Log exception
+                appendToErrorLog(ex.ToString());
             }
 
             Console.WriteLine("Ready to launch game!");
