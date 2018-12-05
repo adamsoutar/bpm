@@ -6,8 +6,8 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{2FFE8A4E-0173-4340-A3FD-20E922E224DF}</ProjectGuid>
     <OutputType>WinExe</OutputType>
-    <RootNamespace>FullAutoInstaller</RootNamespace>
-    <AssemblyName>FullAutoInstaller</AssemblyName>
+    <RootNamespace>bpmInstaller</RootNamespace>
+    <AssemblyName>bpmInstaller</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
@@ -122,6 +122,12 @@
       <ProductName>.NET Framework 3.5 SP1</ProductName>
       <Install>false</Install>
     </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\bpmInstaller.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\bpmInstaller2.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

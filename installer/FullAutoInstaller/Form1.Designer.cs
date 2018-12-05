@@ -1,4 +1,4 @@
-﻿namespace FullAutoInstaller
+﻿namespace bpmInstaller
 {
     partial class Form1
     {
@@ -40,12 +40,12 @@
             // 
             // label1
             // 
-            this.label1.BackColor = System.Drawing.Color.White;
+            this.label1.BackColor = System.Drawing.Color.Transparent;
             this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label1.ForeColor = System.Drawing.Color.DimGray;
-            this.label1.Location = new System.Drawing.Point(440, 19);
+            this.label1.Location = new System.Drawing.Point(344, 9);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(339, 146);
+            this.label1.Size = new System.Drawing.Size(303, 146);
             this.label1.TabIndex = 0;
             this.label1.Text = resources.GetString("label1.Text");
             this.label1.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
@@ -56,7 +56,7 @@
             this.label2.BackColor = System.Drawing.Color.White;
             this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label2.ForeColor = System.Drawing.Color.Black;
-            this.label2.Location = new System.Drawing.Point(254, 236);
+            this.label2.Location = new System.Drawing.Point(112, 192);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(119, 20);
             this.label2.TabIndex = 1;
@@ -68,7 +68,7 @@
             this.label3.BackColor = System.Drawing.Color.White;
             this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label3.ForeColor = System.Drawing.Color.DimGray;
-            this.label3.Location = new System.Drawing.Point(255, 256);
+            this.label3.Location = new System.Drawing.Point(113, 212);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(133, 16);
             this.label3.TabIndex = 1;
@@ -77,11 +77,10 @@
             // txtInstallDir
             // 
             this.txtInstallDir.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.txtInstallDir.Location = new System.Drawing.Point(258, 275);
+            this.txtInstallDir.Location = new System.Drawing.Point(116, 231);
             this.txtInstallDir.Name = "txtInstallDir";
-            this.txtInstallDir.Size = new System.Drawing.Size(490, 20);
+            this.txtInstallDir.Size = new System.Drawing.Size(500, 20);
             this.txtInstallDir.TabIndex = 2;
-            this.txtInstallDir.Text = "Test";
             // 
             // btnInstall
             // 
@@ -90,13 +89,13 @@
             this.btnInstall.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Silver;
             this.btnInstall.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
             this.btnInstall.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnInstall.Location = new System.Drawing.Point(687, 409);
+            this.btnInstall.Location = new System.Drawing.Point(555, 307);
             this.btnInstall.Name = "btnInstall";
             this.btnInstall.Size = new System.Drawing.Size(92, 29);
             this.btnInstall.TabIndex = 3;
             this.btnInstall.Text = "install";
             this.btnInstall.UseVisualStyleBackColor = false;
-            this.btnInstall.Click += new System.EventHandler(this.installFullAuto);
+            this.btnInstall.Click += new System.EventHandler(this.installbpm);
             // 
             // btnUninstall
             // 
@@ -105,17 +104,17 @@
             this.btnUninstall.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Silver;
             this.btnUninstall.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
             this.btnUninstall.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnUninstall.Location = new System.Drawing.Point(258, 409);
+            this.btnUninstall.Location = new System.Drawing.Point(116, 307);
             this.btnUninstall.Name = "btnUninstall";
             this.btnUninstall.Size = new System.Drawing.Size(92, 29);
             this.btnUninstall.TabIndex = 3;
             this.btnUninstall.Text = "uninstall";
             this.btnUninstall.UseVisualStyleBackColor = false;
-            this.btnUninstall.Click += new System.EventHandler(this.uninstallFullAuto);
+            this.btnUninstall.Click += new System.EventHandler(this.uninstallbpm);
             // 
             // btnBrowse
             // 
-            this.btnBrowse.Location = new System.Drawing.Point(754, 275);
+            this.btnBrowse.Location = new System.Drawing.Point(622, 231);
             this.btnBrowse.Name = "btnBrowse";
             this.btnBrowse.Size = new System.Drawing.Size(25, 20);
             this.btnBrowse.TabIndex = 3;
@@ -127,8 +126,8 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BackgroundImage = global::FullAutoInstaller.Properties.Resources.FullAuto2;
-            this.ClientSize = new System.Drawing.Size(800, 450);
+            this.BackgroundImage = global::bpmInstaller.Properties.Resources.bpmInstaller2;
+            this.ClientSize = new System.Drawing.Size(668, 357);
             this.Controls.Add(this.btnUninstall);
             this.Controls.Add(this.btnBrowse);
             this.Controls.Add(this.btnInstall);
