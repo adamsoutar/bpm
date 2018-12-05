@@ -59,7 +59,7 @@ namespace bpmInstaller
                 if (!installDir.ToLower().Contains("steam") && installDir.ToLower().Contains("oculus")) platform = "oculus";
 
                 settings.platform = platform;
-                settings.installFolder = installDir;
+                settings.installDir = installDir;
 
                 // Re-save
                 StreamWriter sw = new StreamWriter(jsonPath);
