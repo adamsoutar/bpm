@@ -122,23 +122,23 @@ if (config.config !== null) {
   logo.printLogo()
 
   // bpm auto-update code
-  autoupdate.checkForUpdates((updated) => {
-    if (updated) {
-      process.exit()
-    } else if (updateMode) {
-      const updateExePath = path.join(config.getInstallDir(), 'bpmUpdate.exe')
-      const bpmExePath = path.join(config.getInstallDir(), 'Beat Saber.exe')
-      fs.copyFile(updateExePath, bpmExePath, (err) => {
-        if (err) {
-          log.say('ERROR', 'Failed to copy updated bpm')
-          log.err(err)
-          return
-        }
-        log.say('INFO', 'bpm has finished updating successfully!')
-      })
-    }
-  })
-
-  log.say('INFO', `Checking ${apiBase} for plugin updates...`)
-  handleModPage(0)
+  if (updateMode) {
+    const updateExePath = path.join(config.getInstallDir(), 'bpmUpdate.exe')
+    const bpmExePath = path.join(config.getInstallDir(), 'Beat Saber.exe')
+    fs.copyFile(updateExePath, bpmExePath, (err) => {
+      if (err) {
+        log.say('ERROR', 'Failed to copy updated bpm')
+        log.err(err)
+        return
+      }
+      log.say('INFO', 'bpm has finished updating successfully!')
+    })
+  } else {
+    autoupdate.checkForUpdates((updated) => {
+      if (!updated) {
+        log.say('INFO', `Checking ${apiBase} for plugin updates...`)
+        handleModPage(0)
+      }
+    })
+  }
 }

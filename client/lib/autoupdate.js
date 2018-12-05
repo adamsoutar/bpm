@@ -6,8 +6,8 @@ const path = require('path')
 const http = require('http')
 const childProcess = require('child_process')
 // The version number for this build of bpm:
-const bakedVersion = '2'
-const updateURL = `https://raw.githubusercontent.com/Adybo123/bpm/master/update.txt`
+const bakedVersion = '3'
+const updateURL = `https://raw.githubusercontent.com/Adybo123/bpm/master/client/update.txt`
 
 exports.checkForUpdates = (callb) => {
   log.say('INFO', 'Checking for updates to bpm...')
@@ -27,9 +27,12 @@ exports.checkForUpdates = (callb) => {
       http.get(updateData[1], (res) => {
         res.pipe(exeFile)
         res.on('end', () => {
-          exeFile.close()
-          childProcess.exec(`"${updateExePath}" --update`)
-          callb(true)
+          // Wait for the cleanup
+          exeFile.close(() => {
+            log.say('INFO', `Starting ${updateExePath}...`)
+            childProcess.execFile(updateExePath, ['--update'])
+            callb(true)
+          })
         })
       })
     } else {
