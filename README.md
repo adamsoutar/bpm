@@ -2,6 +2,8 @@
 
 bpm is an app that runs when you start BeatSaber, and keeps all of your mods up to date without you having to think about it. It works entirely independently, as a replacement for [BeatSaberModInstaller](https://github.com/Umbranoxio/BeatSaberModInstaller).
 
+[![build status](https://travis-ci.com/Adybo123/bpm.svg?branch=master)](https://travis-ci.com/Adybo123/bpm)
+
 ## Installation
 
 Download the latest release .zip file from the [releases page](https://github.com/Adybo123/BeatSaberFullAuto/releases), and unzip it. Run "bpmInstaller.exe", and press one button to install the loader. 
