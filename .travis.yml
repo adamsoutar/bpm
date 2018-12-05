@@ -1,4 +1,4 @@
-language: csharp
-solution: FullAuto/FullAuto.sln
-mono:
- - latest
+language: node_js
+script: npm build
+node_js:
+ - node
