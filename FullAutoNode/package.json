@@ -1,0 +1,36 @@
+{
+  "name": "bpm",
+  "version": "0.3.0",
+  "description": "Beat saber Package Manager",
+  "main": "index.js",
+  "scripts": {
+    "test": "standard",
+    "build": "pkg -t latest-win-x64 index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Adybo123/BeatSaberFullAuto.git"
+  },
+  "keywords": [
+    "beatsaber",
+    "bpm",
+    "mods"
+  ],
+  "author": "deeBo",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Adybo123/BeatSaberFullAuto/issues"
+  },
+  "homepage": "https://github.com/Adybo123/BeatSaberFullAuto#readme",
+  "devDependencies": {
+    "standard": "^12.0.1"
+  },
+  "dependencies": {
+    "chalk": "^2.4.1",
+    "jszip": "^3.1.5",
+    "request": "^2.88.0"
+  },
+  "pkg": {
+    "scripts": "/lib/**/*.js"
+  }
+}
