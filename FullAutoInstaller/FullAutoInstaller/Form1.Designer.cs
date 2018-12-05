@@ -81,7 +81,7 @@
             this.txtInstallDir.Name = "txtInstallDir";
             this.txtInstallDir.Size = new System.Drawing.Size(490, 20);
             this.txtInstallDir.TabIndex = 2;
-            this.txtInstallDir.Text = "C:\\Program Files (x86)\\Steam\\steamapps\\common\\Beat Saber";
+            this.txtInstallDir.Text = "Test";
             // 
             // btnInstall
             // 
@@ -141,6 +141,7 @@
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = " ";
             this.TopMost = true;
+            this.Load += new System.EventHandler(this.Form1_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 

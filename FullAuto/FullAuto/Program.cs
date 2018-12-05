@@ -8,6 +8,8 @@ using System.Threading.Tasks;
 using Microsoft.Win32;
 using System.Net;
 using Ionic.Zip;
+using System.Xml;
+using System.Xml.Linq;
 
 namespace FullAuto
 {
@@ -39,6 +41,7 @@ namespace FullAuto
             fullAutoMain();
             try
             {
+                Console.ReadLine();
                 var beatSaberProcess = System.Diagnostics.Process.Start(Path.Combine(installDir, "Game.exe"));
                 beatSaberProcess.WaitForExit();
             } catch (Exception ex)
@@ -84,6 +87,13 @@ namespace FullAuto
             File.Delete(tempFile);
         }
 
+        static string arrayToString(Array x)
+        {
+            string endStr = "";
+            foreach (var y in x) endStr = $"{endStr}, {(string)y}";
+            return endStr;
+        }
+
         static (bool, dynamic) checkModUpdates(dynamic settings)
         {
             Console.WriteLine("Scraping API for versions...");
@@ -94,18 +104,18 @@ namespace FullAuto
             bool updatesInstalled = false;
 
             List<string> settingsPackages = settings.packages.ToObject<List<string>>();
+            List<string> remainingMods = settingsPackages;
             List<string> settingsVersions = settings.versions.ToObject<List<string>>();
             // Padd arrays to avoid indexing errors
             while (settingsVersions.Count < settingsPackages.Count) settingsVersions.Add("0");
             while (settingsVersions.Count > settingsPackages.Count) settingsVersions.RemoveAt(settingsVersions.Count - 1);
-            List<string> remainingMods = settingsPackages;
 
             // For all API call pages
             while (i < maxPages)
             {
                 dynamic thisPage = getAPIJSON($"{gameVersionEndpoint}{i}");
                 if (i == 0) maxPages = thisPage.lastPage;
-                
+                Console.WriteLine($"Mods to check: {arrayToString(remainingMods.ToArray())}");
                 // For all mods on this page
                 for (int m = 0; m < thisPage.mods.Count; m++)
                 {
