@@ -9,9 +9,13 @@ function getConfig () {
     // bpm.json is... JSON
     return JSON.parse(fs.readFileSync(configLocation, 'utf8'))
   } else {
-    log.say('ERROR', `Couldn't find bpm.json, bpm has to exit.`)
-    log.err(`Couldn't find bpm.json - it needs to be in the same folder as Beat Saber.exe!`)
-    return null
+    log.say('ERROR', `Couldn't find bpm.json, making one up.`)
+    log.say('WARNING', `Platform assumed as 'steam'`)
+    return {
+      platform: 'steam',
+      installDir: process.cwd(),
+      logIPA: false
+    }
   }
 }
 

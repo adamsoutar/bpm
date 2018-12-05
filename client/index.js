@@ -14,6 +14,9 @@ const config = require('./lib/config')
 const packages = require('./lib/packages.js')
 const gameLib = require('./lib/game')
 const logo = require('./lib/logo')
+const path = require('path')
+const fs = require('fs')
+const autoupdate = require('./lib/autoupdate')
 
 var modPages = 1
 var pageNumber = 0
@@ -107,8 +110,35 @@ function updatesDone () {
   }
 }
 
+// Are we performing an auto-update?
+var updateMode = false
+process.argv.forEach((val, index) => {
+  if (val === '--update') {
+    updateMode = true
+  }
+})
+
 if (config.config !== null) {
   logo.printLogo()
-  log.say('INFO', `Checking ${apiBase} for updates...`)
+
+  // bpm auto-update code
+  autoupdate.checkForUpdates((updated) => {
+    if (updated) {
+      process.exit()
+    } else if (updateMode) {
+      const updateExePath = path.join(config.getInstallDir(), 'bpmUpdate.exe')
+      const bpmExePath = path.join(config.getInstallDir(), 'Beat Saber.exe')
+      fs.copyFile(updateExePath, bpmExePath, (err) => {
+        if (err) {
+          log.say('ERROR', 'Failed to copy updated bpm')
+          log.err(err)
+          return
+        }
+        log.say('INFO', 'bpm has finished updating successfully!')
+      })
+    }
+  })
+
+  log.say('INFO', `Checking ${apiBase} for plugin updates...`)
   handleModPage(0)
 }
