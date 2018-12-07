@@ -15,6 +15,8 @@ exports.checkForUpdates = (callb) => {
     if (error) {
       log.say('ERROR', 'Failed to check for bpm updates')
       log.err(error)
+      // Let the main script know we didn't update
+      callb(false)
       return
     }
     var updateData = body.split('|')

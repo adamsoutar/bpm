@@ -1,9 +1,0 @@
-{
-  "platform": "steam",
-  "installDir": "C:\\Program Files (x86)\\Steam\\steamapps\\common\\Beat Saber",
-  "logIPA": false,
-  "versions": {
-    "song-loader": "5.0.1",
-    "scoresaber": "2.0.5"
-  }
-}
