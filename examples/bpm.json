@@ -1,0 +1,17 @@
+{
+  "platform": "steam",
+  "installDir": "C:\\Program Files (x86)\\Steam\\steamapps\\common\\Beat Saber",
+  "logIPA": false,
+  "versions": {
+    "song-loader": "5.0.1",
+    "scoresaber": "2.0.5",
+    "beatsaverdownloader": "3.0.0",
+    "camera-plus": "2.0.2",
+    "custom-saber": "2.5.0",
+    "custom-avatars": "4.2.0",
+    "custom-platforms": "2.3.0",
+    "customcolorskyleedit": "1.6.4",
+    "songbrowserplugin": "2.4.1",
+    "harmony": "1.2.0"
+  }
+}

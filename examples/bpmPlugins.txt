@@ -1,0 +1,10 @@
+song-loader
+scoresaber
+camera-plus
+beatsaverdownloader
+songbrowserplugin
+custom-saber
+custom-avatars
+custom-platforms
+customcolorskyleedit
+harmony
