@@ -103,7 +103,7 @@ namespace bpmInstaller
                 if (File.Exists(gameExe))
                 {
                     string beatSaberExe = Path.Combine(installDir, "Beat Saber.exe");
-                    if (File.Exists("Beat Saber.exe")) File.Delete(beatSaberExe);
+                    if (File.Exists(beatSaberExe)) File.Delete(beatSaberExe);
                     File.Move(gameExe, beatSaberExe);
                 }
                 string gameFolder = Path.Combine(installDir, "Game_Data");
