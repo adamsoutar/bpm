@@ -9,6 +9,7 @@ const childProcess = require('child_process')
 const bakedVersion = '3'
 const updateURL = `https://raw.githubusercontent.com/Adybo123/bpm/master/client/update.txt`
 
+exports.version = bakedVersion
 exports.checkForUpdates = (callb) => {
   log.say('INFO', 'Checking for updates to bpm...')
   request(updateURL, (error, response, body) => {
