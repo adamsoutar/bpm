@@ -29,8 +29,14 @@ exports.IPAPatch = (callback) => {
   })
 }
 
-exports.startBeatSaber = () => {
+exports.startBeatSaber = (args) => {
   log.say('INFO', 'Thanks for using bpm! - deeBo')
   log.say('INFO', 'Starting Beat Saber...')
-  childProcess.exec(`"${GamePath}"`)
+  // Pass args on to Beat Saber
+  var argString = ''
+  if (args) {
+    argString = (args.length > 0) ? ` ${args.join(' ')}` : ''
+    log.say('INFO', `Launch args string:${argString}`)
+  }
+  childProcess.exec(`"${GamePath}" ${argString}`)
 }

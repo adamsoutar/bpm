@@ -23,6 +23,7 @@ var pageNumber = 0
 var modsUpdated = false
 var thisPage = {}
 var uncheckedPlugins = config.plugins
+var bsLaunchArgs = []
 
 function lastVersion (pluginName) {
   if (config.config.versions) {
@@ -103,20 +104,21 @@ function updatesDone () {
     // Run IPA
     log.say('INFO', 'Repatching game with IPA...')
     gameLib.IPAPatch(() => {
-      gameLib.startBeatSaber()
+      gameLib.startBeatSaber(bsLaunchArgs)
     })
   } else {
-    gameLib.startBeatSaber()
+    gameLib.startBeatSaber(bsLaunchArgs)
   }
 }
 
 // Are we performing an auto-update?
-var updateMode = false
-process.argv.forEach((val, index) => {
-  if (val === '--update') {
-    updateMode = true
+var updateMode = process.argv.includes('--update')
+if (!updateMode) {
+  log.say('INFO', 'Found command line arguments, passing them to Beat Saber.')
+  for (let aI = 2; aI < process.argv.length; aI++) {
+    bsLaunchArgs.push(process.argv[aI])
   }
-})
+}
 
 if (config.config !== null) {
   logo.printLogo()
