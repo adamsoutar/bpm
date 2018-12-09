@@ -35,7 +35,7 @@ exports.startBeatSaber = (args) => {
   // Pass args on to Beat Saber
   var argString = ''
   if (args) {
-    argString = (args.length > 0) ? ` ${args.join(' ')}` : ''
+    argString = (args.length > 0) ? args.join(' ') : ''
     log.say('INFO', `Launch args string:${argString}`)
   }
   childProcess.exec(`"${GamePath}" ${argString}`)

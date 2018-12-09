@@ -50,8 +50,7 @@ exports.downloadAndExtract = (zipURL, callback) => {
           if (err) {
             log.say('ERROR', 'Could not create directory when extracting package')
             log.err(err)
-            fileExtracted()
-            return
+            // Don't return, there's a chance the error was a dir exists already
           }
           zipEntry.async('uint8array').then((contents) => {
             fs.writeFile(fl, contents, (err) => {
