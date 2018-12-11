@@ -33,8 +33,9 @@ exports.checkForUpdates = (callb) => {
           // Wait for the cleanup
           exeFile.close(() => {
             log.say('INFO', `Starting ${updateExePath}...`)
-            childProcess.execFile(updateExePath, ['--update'])
-            callb(true)
+            childProcess.execFile(updateExePath, ['--update'], () => {
+              callb(true)
+            })
           })
         })
       })

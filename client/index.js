@@ -114,9 +114,18 @@ function updatesDone () {
   }
 }
 
+function startMainLoop () {
+  autoupdate.checkForUpdates((updated) => {
+    if (!updated) {
+      log.say('INFO', `Checking ${apiBase} for plugin updates...`)
+      handleModPage(0)
+    }
+  })
+}
+
 // Are we performing an auto-update?
 var updateMode = process.argv.includes('--update')
-if (!updateMode) {
+if (!updateMode && process.argv.length > 2) {
   log.say('INFO', 'Found command line arguments, passing them to Beat Saber.')
   for (let aI = 2; aI < process.argv.length; aI++) {
     bsLaunchArgs.push(process.argv[aI])
@@ -137,13 +146,9 @@ if (config.config !== null) {
         return
       }
       log.say('INFO', 'bpm has finished updating successfully!')
+      startMainLoop()
     })
   } else {
-    autoupdate.checkForUpdates((updated) => {
-      if (!updated) {
-        log.say('INFO', `Checking ${apiBase} for plugin updates...`)
-        handleModPage(0)
-      }
-    })
+    startMainLoop()
   }
 }
