@@ -14,6 +14,8 @@ exports.downloadAndExtract = (zipURL, callback) => {
     if (error || response.statusCode !== 200) {
       log.say('ERROR', 'Could not download package')
       log.err(error)
+      // Don't return without calling the callback!
+      callback(error)
       return
     }
     JSZip.loadAsync(body).then(function (zip) {

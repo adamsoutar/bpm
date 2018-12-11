@@ -89,6 +89,9 @@ function handleModPage () {
     if (err) {
       log.say('ERROR', `Couldn't get mod listings from ModSaber`)
       log.err(err)
+      // Either no internet connection, or ModSaber is down. Launch the game.
+      updatesDone()
+      return
     }
     log.say('INFO', `Got page ${pageNumber + 1} of mods from ModSaber`)
 
