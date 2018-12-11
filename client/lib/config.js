@@ -26,8 +26,9 @@ function getPlugins () {
     p = p.filter((x) => x !== '')
     return p
   } else {
-    log.say('WARNING', `Couldn't find bpmPlugins.txt, bpm won't check for updates.`)
-    return []
+    log.say('WARNING', `Couldn't find bpmPlugins.txt, bpm will only update song-loader.`)
+    // Why do we need song-loader? It contains IPA.
+    return ['song-loader']
   }
 }
 

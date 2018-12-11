@@ -10,23 +10,29 @@ const GamePath = path.join(installDir, 'Game.exe')
 
 exports.IPAPatch = (callback) => {
   log.say('INFO', `Spawning ${IPAPath}`)
-  const IPA = childProcess.spawn(IPAPath, [GamePath])
+  try {
+    const IPA = childProcess.spawn(IPAPath, [GamePath])
 
-  IPA.stderr.on('data', (data) => {
-    log.say('ERROR', `[IPA] ${data}`)
-  })
-
-  if (config.config.logIPA) {
-    IPA.stdout.on('data', (data) => {
-      log.say('INFO', `[IPA] ${data}`)
+    IPA.stderr.on('data', (data) => {
+      log.say('ERROR', `[IPA] ${data}`)
     })
-  }
 
-  IPA.on('close', (exitCode) => {
-    log.say('INFO', `IPA finished with exit code ${exitCode}`)
-    if (exitCode !== 0) log.say('WARNING', 'IPA exited with non-zero exit code. Game might not be patched.')
+    if (config.config.logIPA) {
+      IPA.stdout.on('data', (data) => {
+        log.say('INFO', `[IPA] ${data}`)
+      })
+    }
+
+    IPA.on('close', (exitCode) => {
+      log.say('INFO', `IPA finished with exit code ${exitCode}`)
+      if (exitCode !== 0) log.say('WARNING', 'IPA exited with non-zero exit code. Game might not be patched.')
+      callback()
+    })
+  } catch (err) {
+    log.say('ERROR', 'Failed to spawn IPA')
+    log.err(err)
     callback()
-  })
+  }
 }
 
 exports.startBeatSaber = (args) => {
