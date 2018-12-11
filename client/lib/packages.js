@@ -47,7 +47,7 @@ exports.downloadAndExtract = (zipURL, callback) => {
         const dir = path.join(extractBasePath, path.dirname(relativePath))
         const fl = path.join(extractBasePath, relativePath)
         // Do we need to create a folder?
-        var dirFunction = fs.existsSync(dir) ? (a, b, c) => { c() } : fs.mkdir
+        var dirFunction = fs.existsSync(dir) ? (a, b, c) => { c(null) } : fs.mkdir
         dirFunction(dir, { recursive: true }, (err) => {
           if (err) {
             log.say('ERROR', 'Could not create directory when extracting package')
