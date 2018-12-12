@@ -17,6 +17,7 @@ namespace bpmInstaller
     {
         string payloadFolder = "installData";
         string helpString = "\nIf you have persistent trouble, ask @deeBo on the modding Discord, or pull up an issue on GitHub at Adybo123/bpm";
+        bool showUninstallMessage = true;
         public Form1()
         {
             InitializeComponent();
@@ -40,9 +41,20 @@ namespace bpmInstaller
             string installDir = txtInstallDir.Text;
             if (!isBeatSaberFolder(installDir, "Beat Saber"))
             {
-                MessageBox.Show($"That doesn't seem to be a Beat Saber install folder. Please check the path and try again.\n{helpString}",
-                    "bpm Installer", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return;
+                if (isBeatSaberFolder(installDir, "Game"))
+                {
+                    DialogResult installOver = MessageBox.Show("It looks like a version of bpm is already installed there.\nDo you want to install over the old one?",
+                        "bpm Installer", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+                    if (installOver == DialogResult.No) return;
+                    showUninstallMessage = false;
+                    uninstallbpm(null, null);
+                }
+                else
+                {
+                    MessageBox.Show($"That doesn't seem to be a Beat Saber install folder. Please check the path and try again.\n{helpString}",
+                      "bpm Installer", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
             }
 
             try
@@ -91,7 +103,7 @@ namespace bpmInstaller
             string installDir = txtInstallDir.Text;
             if (!isBeatSaberFolder(installDir, "Game"))
             {
-                MessageBox.Show($"That doesn't seem to be a Beat Saber install folder. Please check the path and try again.{helpString}",
+                MessageBox.Show($"bpm doesn't seem to be installed there. Please check the path and try again.{helpString}",
                     "bpm Installer", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
@@ -113,7 +125,7 @@ namespace bpmInstaller
                     Directory.Move(gameFolder, beatSaberFolder);
                 }
 
-                MessageBox.Show("The bpm game launcher has been uninstalled.\nMods might still be installed. If this isn't what you want, delete the .dll files in /plugins/ in the install folder.",
+                if (showUninstallMessage) MessageBox.Show("The bpm game launcher has been uninstalled.\nMods might still be installed. If this isn't what you want, delete the .dll files in /plugins/ in the install folder.",
                     "bpm Installer", MessageBoxButtons.OK, MessageBoxIcon.Information);
             } catch (Exception ex)
             {
