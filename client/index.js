@@ -34,7 +34,9 @@ function lastVersion (pluginName) {
 function installPlugin (plugin, callback) {
   modsUpdated = true
   log.say('INFO', `Updating ${plugin.name} to ${plugin.version}...`)
-  packages.downloadAndExtract(plugin.files[config.getPlatform()].url, (err) => {
+  // Oculus support
+  var pluginURL = (plugin.files[config.getPlatform()] || plugin.files['steam']).url
+  packages.downloadAndExtract(pluginURL, (err) => {
     if (err) {
       log.say('WARNING', 'Plugin installer detected a failure in the package engine. Continuing.')
     } else {
