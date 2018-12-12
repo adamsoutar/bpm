@@ -7,7 +7,7 @@ bpm is an app that runs when you start BeatSaber, and keeps all of your mods up 
 
 ## Installation
 
-Download the latest release .zip file from the [releases page](https://github.com/Adybo123/BeatSaberFullAuto/releases), and unzip it. Run "bpmInstaller.exe", and press one button to install the loader. 
+Download the latest release .zip file from the [releases page](https://github.com/Adybo123/BeatSaberFullAuto/releases) and unzip it. Run ```bpmInstaller.exe``` and press one button to install the loader. 
 
 ## Adding mods
 
