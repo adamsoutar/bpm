@@ -4,6 +4,13 @@ const log = require('./log')
 const configLocation = path.join(process.cwd(), 'bpm.json')
 const pluginsLocation = path.join(process.cwd(), 'bpmPlugins.txt')
 
+function guessPlatform (directory) {
+  let d = directory.toLowerCase()
+  // All libraries include 'steamapps' in their path
+  if (d.includes('steam')) return 'steam'
+  return 'oculus'
+}
+
 function getConfig () {
   if (fs.existsSync(configLocation)) {
     // bpm.json is... JSON
@@ -12,7 +19,7 @@ function getConfig () {
     log.say('ERROR', `Couldn't find bpm.json, making one up.`)
     log.say('WARNING', `Platform assumed as 'steam'`)
     return {
-      platform: 'steam',
+      platform: guessPlatform(process.cwd()),
       installDir: process.cwd(),
       logIPA: false
     }
