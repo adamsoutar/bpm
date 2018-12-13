@@ -1,5 +1,5 @@
 language: node_js
-before_script: cd client
+before_script: cd client && npm i
 script: npm run build
 node_js:
  - node
