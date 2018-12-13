@@ -23,6 +23,7 @@
   },
   "homepage": "https://github.com/Adybo123/BeatSaberFullAuto#readme",
   "devDependencies": {
+    "pkg": "^4.3.5",
     "standard": "^12.0.1"
   },
   "dependencies": {
