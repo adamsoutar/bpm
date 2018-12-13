@@ -18,6 +18,7 @@ namespace bpmInstaller
         string payloadFolder = "installData";
         string helpString = "\nIf you have persistent trouble, ask @deeBo on the modding Discord, or pull up an issue on GitHub at Adybo123/bpm";
         bool showUninstallMessage = true;
+        string detectedPlatform = "steam";
         public Form1()
         {
             InitializeComponent();
@@ -66,11 +67,8 @@ namespace bpmInstaller
                 // Edit the settings json
                 string jsonPath = Path.Combine(payloadFolder, "bpm.json");
                 dynamic settings = JsonConvert.DeserializeObject(getTextFileContents(jsonPath));
-                string platform = "steam";
-                // Experimental Oculus support
-                if (!installDir.ToLower().Contains("steam") && installDir.ToLower().Contains("oculus")) platform = "oculus";
 
-                settings.platform = platform;
+                settings.platform = detectedPlatform;
                 settings.installDir = installDir;
 
                 // Re-save
@@ -154,11 +152,25 @@ namespace bpmInstaller
         {
             try
             {
+                // SteamVR version?
                 string installPath = (string)Registry.GetValue(@"HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\Steam App 620980", "InstallLocation", null);
-                txtInstallDir.Text = installPath ?? throw new Exception("Steam install registry key not present.");
-            } catch (Exception ex) {
-                txtInstallDir.Text = "Please select your install folder... and be careful.";
-                MessageBox.Show("It doesn't look like you're using the Steam version of Beat Saber.\n\nPlease note that, for now, it is not recommended to install bpm on anything but the Steam version. The installer will open, but you should not do this unless you're helping @deeBo test.",
+                if (installPath != null)
+                {
+                    txtInstallDir.Text = installPath;
+                } else
+                {
+                    // Oculus Store version?
+                    installPath = (string)Registry.GetValue(@"HKEY_LOCAL_MACHINE\SOFTWARE\WOW6432Node\Oculus VR, LLC\Oculus\Config", "InitialAppLibrary", null);
+                    if (installPath != null)
+                    {
+                        detectedPlatform = "oculus";
+                        txtInstallDir.Text = Path.Combine(installPath, @"Software\hyperbolic-magnetism-beat-saber\");
+                    } else throw new Exception("No supported platforms in Registry");
+                }
+            } catch (Exception ex)
+            {
+                txtInstallDir.Text = "Please select the folder with Beat Saber.exe in it";
+                MessageBox.Show("bpm couldn't detect a supported platform. bpm supports Oculus Store and Steam.\nPlease be careful when selecting your Beat Saber folder.",
                     "bpm Installer", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 logException(ex);
             } 
