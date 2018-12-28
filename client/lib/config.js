@@ -1,11 +1,13 @@
 const path = require('path')
 const fs = require('fs')
 const log = require('./log')
+const childProcess = require('child_process')
 const CONFIG_PATH = path.join(process.cwd(), 'bpm.json')
 const PLUGINS_PATH = path.join(process.cwd(), 'bpmPlugins.txt')
 const REQUIRED_PLUGINS = ['song-loader']
 
 function guessPlatform (directory) {
+  // TODO: bpm should be smarter at this
   let d = directory.toLowerCase()
   // All libraries include 'steamapps' in their path
   if (d.includes('steam')) return 'steam'
@@ -64,4 +66,19 @@ module.exports.getInstallDir = () => {
 
 module.exports.getPlatform = () => {
   return module.exports.config.platform || 'steam'
+}
+
+module.exports.checkSetup = () => {
+  // A symlink is required for the game to work. Is it there?
+  const symLinkPath = path.join(module.exports.config.installDir, 'Game_Data')
+  if (!fs.existsSync(symLinkPath)) {
+    log.say('INFO', `Didn't find the Game_Data symlink, creating...`)
+    try {
+      childProcess.exec(`mklink /J "${symLinkPath}" "${path.join(module.exports.config.installDir, 'Beat Saber_Data')}"`)
+      log.say('INFO', 'Symlink created!')
+    } catch (ex) {
+      log.say('ERROR', 'Failed to create symlink!')
+      log.err(ex)
+    }
+  }
 }

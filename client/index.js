@@ -117,6 +117,8 @@ function updatesDone () {
 }
 
 function startMainLoop () {
+  // Is the symlink configured?
+  config.checkSetup()
   autoupdate.checkForUpdates((updated) => {
     if (!updated) {
       log.say('INFO', `Checking ${apiBase} for plugin updates...`)
@@ -134,23 +136,21 @@ if (!updateMode && process.argv.length > 2) {
   }
 }
 
-if (config.config !== null) {
-  logo.printLogo()
+logo.printLogo()
 
-  // bpm auto-update code
-  if (updateMode) {
-    const updateExePath = path.join(config.getInstallDir(), 'bpmUpdate.exe')
-    const bpmExePath = path.join(config.getInstallDir(), 'Beat Saber.exe')
-    fs.copyFile(updateExePath, bpmExePath, (err) => {
-      if (err) {
-        log.say('ERROR', 'Failed to copy updated bpm')
-        log.err(err)
-        return
-      }
-      log.say('INFO', 'bpm has finished updating successfully!')
-      startMainLoop()
-    })
-  } else {
+// Are we being started by the auto-updater?
+if (updateMode) {
+  const updateExePath = path.join(config.getInstallDir(), 'bpmUpdate.exe')
+  const bpmExePath = path.join(config.getInstallDir(), 'Beat Saber.exe')
+  fs.copyFile(updateExePath, bpmExePath, (err) => {
+    if (err) {
+      log.say('ERROR', 'Failed to copy updated bpm')
+      log.err(err)
+      return
+    }
+    log.say('INFO', 'bpm has finished updating successfully!')
     startMainLoop()
-  }
+  })
+} else {
+  startMainLoop()
 }
