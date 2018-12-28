@@ -70,11 +70,11 @@ module.exports.getPlatform = () => {
 
 module.exports.checkSetup = () => {
   // A symlink is required for the game to work. Is it there?
-  const symLinkPath = path.join(module.exports.config.installDir, 'Game_Data')
+  const symLinkPath = path.join(module.exports.config.installDir, 'Beat Saber_Data')
   if (!fs.existsSync(symLinkPath)) {
-    log.say('INFO', `Didn't find the Game_Data symlink, creating...`)
+    log.say('INFO', `Didn't find the Beat Saber_Data symlink, creating...`)
     try {
-      childProcess.exec(`mklink /J "${symLinkPath}" "${path.join(module.exports.config.installDir, 'Beat Saber_Data')}"`)
+      childProcess.exec(`mklink /J "${symLinkPath}" "${path.join(module.exports.config.installDir, 'Game_Data')}"`)
       log.say('INFO', 'Symlink created!')
     } catch (ex) {
       log.say('ERROR', 'Failed to create symlink!')
